@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './question.dart';
+import './answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,9 +26,38 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      "What's your favorite color?",
-      "What's your favorite animal?",
+    const questions = [
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': [
+          'Black',
+          'Greeen',
+          'Red',
+          'White',
+          'Yellow',
+        ],
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': [
+          'Dog',
+          'Cat',
+          'Bird',
+          'Frog',
+          'Beaver',
+        ],
+      },
+      {
+        'questionText': 'What\'s your favorite day?',
+        'answers': [
+          'Monday',
+          'Sunday',
+          'Friday',
+          'Holiday',
+          'Birthday',
+          'New Year\'s Eve'
+        ],
+      },
     ];
 
     return MaterialApp(
@@ -35,16 +65,25 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text("This is AppBar Title"),
         ),
-        body: Column(
-          children: [
-            Question(questionText: questions[_questionIndex]),
-            ElevatedButton(onPressed: (() {}), child: const Text("Answer 1")),
-            ElevatedButton(onPressed: (() {}), child: const Text("Answer 2")),
-            ElevatedButton(
-                onPressed: (() => _answerQuestion()),
-                child: const Text("Answer 3"))
-          ],
-        ),
+        body: _questionIndex == questions.length
+            ? Center(
+                child: Text('You did it!'),
+              )
+            : Column(
+                children: [
+                  Question(
+                    questionText:
+                        questions[_questionIndex]["questionText"] as String,
+                  ),
+                  ...(questions[_questionIndex]["answers"] as List<String>)
+                      .map((item) {
+                    return Answer(
+                      answerText: item,
+                      selectHandler: () => _answerQuestion(),
+                    );
+                  }).toList(),
+                ],
+              ),
       ),
     );
   }
