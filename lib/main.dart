@@ -61,6 +61,13 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text("This is AppBar Title"),
         ),
         body: _questionIndex == _questions.length
-            ? Result(_totalScore)
+            ? Result(_totalScore, _resetQuiz)
             : Quiz(
                 questions: _questions,
                 answerQuestion: _answerQuestion,
